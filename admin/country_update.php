@@ -97,23 +97,32 @@
 // include "config.php";
 include "include/config.php";
 if(isset($_POST['btn_update'])){
-  // extract("$_POST");
-    $country =$_POST['country'];  
   
-$update="update country set country='$country' where cou_id='".$_GET['id']."'";
-$upd=mysqli_query($con,$update);
-echo $update; 
-// die();
-if ($update) {
-  echo "<script>;";
-  echo "alert('Data is Updated');";
-  echo "window.location.href = 'country.php';";
-  echo "</script>";
-} else {
-  echo "<script>;";
-  echo "alert('Error')";
-  echo "window.location.href = 'country_update.php';";
-  echo "</script>";
-}
+    extract($_POST);
+
+    $result = mysqli_query($con,"SELECT * FROM country WHERE country = '".$country."' ")or die(mysqli_error($con));
+
+    if(mysqli_num_rows($result)>0) {
+        echo "<script type='text/javascript'>;";
+        echo "alert('Data Already Exist .. Enter Different States');";
+        echo "</script>";
+    }
+    else{
+        $update="update country set country='$country' where cou_id='".$_GET['id']."'";
+        $upd=mysqli_query($con,$update);
+        // echo $update; 
+        // die();
+        if ($update) {
+        echo "<script>;";
+        echo "alert('Data is Updated');";
+        echo "window.location.href = 'country.php';";
+        echo "</script>";
+        } else {
+        echo "<script>;";
+        echo "alert('Error')";
+        echo "window.location.href = 'country_update.php';";
+        echo "</script>";
+        }
+     }
 }
 ?>

@@ -146,9 +146,11 @@
 
                 <p>Vender</p>
               </div>
+              <a href="vender.php">
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>
               </div>
+              </a>
               <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
             </div>
           </div>

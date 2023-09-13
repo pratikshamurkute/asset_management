@@ -132,31 +132,41 @@
 // include "config.php";
 include "include/config.php";
 if(isset($_POST['btn_update'])){
-  extract($_POST);
-    // $states =$_POST['states'];  
-$update="update items set 
-item_name='$item_name',
-category_name='$category_name',
-sub_categ_name='$sub_categ_name',
-item_brand='$item_brand',
-item_specify='$item_specify',
-item_price='$item_price',
-servicing_date='$servicing_date',
-warranty_date='$warranty_date'
-where item_id='".$_GET['id']."'";
-$upd=mysqli_query($con,$update);
-echo $update; 
-// die();
-if ($update) {
-  echo "<script>;";
-  echo "alert('Data is Updated');";
-  echo "window.location.href = 'items.php';";
-  echo "</script>";
-} else {
-  echo "<script>;";
-  echo "alert('Error')";
-  echo "window.location.href = 'update_items.php';";
-  echo "</script>";
+    extract($_POST);
+
+    $result = mysqli_query($con,"SELECT * FROM items WHERE item_name = '".$item_name."' ")or die(mysqli_error($con));
+
+    if(mysqli_num_rows($result)>0) {
+        echo "<script type='text/javascript'>;";
+        echo "alert('Data Already Exist .. Enter Different Item');";
+        echo "</script>";
+        }
+        else{
+            $update="update items set 
+            item_name='$item_name',
+            category_name='$category_name',
+            sub_categ_name='$sub_categ_name',
+            item_brand='$item_brand',
+            item_specify='$item_specify',
+            item_price='$item_price',
+            servicing_date='$servicing_date',
+            warranty_date='$warranty_date'
+            where item_id='".$_GET['id']."'";
+            $upd=mysqli_query($con,$update);
+            echo $update; 
+            // die();
+            if ($update) {
+            echo "<script>;";
+            echo "alert('Data is Updated');";
+            echo "window.location.href = 'items.php';";
+            echo "</script>";
+            } else {
+            echo "<script>;";
+            echo "alert('Error')";
+            echo "window.location.href = 'update_items.php';";
+            echo "</script>";
+            }
+    }
 }
-}
+
 ?>

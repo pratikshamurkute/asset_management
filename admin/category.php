@@ -141,7 +141,17 @@
  include "include/config.php";
 
  if(isset($_POST['save_form'])){
-    $category_name = $_POST["category_name"];
+    // $category_name = $_POST["category_name"];
+    extract($_POST);
+
+    $result = mysqli_query($con,"SELECT * FROM category WHERE category_name = '".$category_name."' ")or die(mysqli_error($con));
+
+    if(mysqli_num_rows($result)>0) {
+        echo "<script type='text/javascript'>;";
+        echo "alert('Data Already Exist .. Enter Different Category');";
+        echo "</script>";
+    }
+    else{
     $sql=mysqli_query($con,"INSERT INTO category (category_name) VALUES ('".$category_name."')");
 
     if($sql){
@@ -155,6 +165,7 @@
         echo "</script>";
     }
  }
+}
  ?>
 <!-- delete -->
 <?php

@@ -97,23 +97,31 @@
 // include "config.php";
 include "include/config.php";
 if(isset($_POST['btn_update'])){
-  // extract("$_POST");
-    $designation_name =$_POST['designation_name'];  
-  
-$update="update designation set designation_name='$designation_name' where designation_id='".$_GET['id']."'";
-$upd=mysqli_query($con,$update);
-echo $update; 
-// die();
-if ($update) {
-  echo "<script>;";
-  echo "alert('Data is Updated');";
-  echo "window.location.href = 'designation.php';";
-  echo "</script>";
-} else {
-  echo "<script>;";
-  echo "alert('Error')";
-  echo "window.location.href = 'designation_update.php';";
-  echo "</script>";
-}
+    extract($_POST);
+
+    $result = mysqli_query($con,"SELECT * FROM designation WHERE designation_name = '".$designation_name."' ")or die(mysqli_error($con));
+
+    if(mysqli_num_rows($result)>0) {
+        echo "<script type='text/javascript'>;";
+        echo "alert('Data Already Exist .. Enter Different Designation');";
+        echo "</script>";
+
+        }else{
+            $update="update designation set designation_name='$designation_name' where designation_id='".$_GET['id']."'";
+            $upd=mysqli_query($con,$update);
+            echo $update; 
+            // die();
+            if ($update) {
+            echo "<script>;";
+            echo "alert('Data is Updated');";
+            echo "window.location.href = 'designation.php';";
+            echo "</script>";
+            } else {
+            echo "<script>;";
+            echo "alert('Error')";
+            echo "window.location.href = 'designation_update.php';";
+            echo "</script>";
+            }
+    }
 }
 ?>

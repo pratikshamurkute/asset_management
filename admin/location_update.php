@@ -97,23 +97,31 @@
 // include "config.php";
 include "include/config.php";
 if(isset($_POST['btn_update'])){
-  // extract("$_POST");
-    $location_name =$_POST['location_name'];  
-  
-$update="update location set location_name='$location_name' where location_id='".$_GET['id']."'";
-$upd=mysqli_query($con,$update);
-echo $update; 
-// die();
-if ($update) {
-  echo "<script>;";
-  echo "alert('Data is Updated');";
-  echo "window.location.href = 'location.php';";
-  echo "</script>";
-} else {
-  echo "<script>;";
-  echo "alert('Error')";
-  echo "window.location.href = 'location_update.php';";
-  echo "</script>";
-}
+    extract($_POST);
+
+    $result = mysqli_query($con,"SELECT * FROM location WHERE location_name = '".$location_name."' ")or die(mysqli_error($con));
+
+    if(mysqli_num_rows($result)>0) {
+        echo "<script type='text/javascript'>;";
+        echo "alert('Data Already Exist .. Enter Different Location');";
+        echo "</script>";
+        }
+        else{
+        $update="update location set location_name='$location_name' where location_id='".$_GET['id']."'";
+        $upd=mysqli_query($con,$update);
+        echo $update; 
+        // die();
+        if ($update) {
+        echo "<script>;";
+        echo "alert('Data is Updated');";
+        echo "window.location.href = 'location.php';";
+        echo "</script>";
+        } else {
+        echo "<script>;";
+        echo "alert('Error')";
+        echo "window.location.href = 'location_update.php';";
+        echo "</script>";
+        }
+    }
 }
 ?>

@@ -142,20 +142,31 @@
  include "include/config.php";
 
  if(isset($_POST['save_form'])){
-    $designation_name = $_POST["designation_name"];
-    $sql=mysqli_query($con,"INSERT INTO designation (designation_name) VALUES ('".$designation_name."')");
+    // $designation_name = $_POST["designation_name"];
+    extract($_POST);
 
-    if($sql){
+    $result = mysqli_query($con,"SELECT * FROM designation WHERE designation_name = '".$designation_name."' ")or die(mysqli_error($con));
+
+    if(mysqli_num_rows($result)>0) {
         echo "<script type='text/javascript'>;";
-        echo "alert('Data Inserted Successfully');";
-        echo "window.location='designation.php';";
+        echo "alert('Data Already Exist .. Enter Different Designation');";
         echo "</script>";
-    }else{
-        echo "<script type='text/javascript'>;";
-        echo "window.location='designation.php';";
-        echo "</script>";
+        }
+        else{
+        $sql=mysqli_query($con,"INSERT INTO designation (designation_name) VALUES ('".$designation_name."')");
+
+        if($sql){
+            echo "<script type='text/javascript'>;";
+            echo "alert('Data Inserted Successfully');";
+            echo "window.location='designation.php';";
+            echo "</script>";
+        }else{
+            echo "<script type='text/javascript'>;";
+            echo "window.location='designation.php';";
+            echo "</script>";
+        }
     }
- }
+}
  ?>
 <!-- delete -->
 <?php

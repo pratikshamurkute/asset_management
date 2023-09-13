@@ -96,23 +96,31 @@
 // include "config.php";
 include "include/config.php";
 if(isset($_POST['btn_update'])){
-  // extract("$_POST");
-    $category_name =$_POST['category_name'];  
-  
-$update="update category set category_name='$category_name' where category_id='".$_GET['id']."'";
-$upd=mysqli_query($con,$update);
-echo $update; 
-// die();
-if ($update) {
-  echo "<script>;";
-  echo "alert('Data is Updated');";
-  echo "window.location.href = 'category.php';";
-  echo "</script>";
-} else {
-  echo "<script>;";
-  echo "alert('Error')";
-  echo "window.location.href = 'category_update.php';";
-  echo "</script>";
-}
+    extract($_POST);
+
+    $result = mysqli_query($con,"SELECT * FROM category WHERE category_name = '".$category_name."' ")or die(mysqli_error($con));
+
+    if(mysqli_num_rows($result)>0) {
+        echo "<script type='text/javascript'>;";
+        echo "alert('Data Already Exist .. Enter Different Category');";
+        echo "</script>";
+        }
+        else{
+            $update="update category set category_name='$category_name' where category_id='".$_GET['id']."'";
+            $upd=mysqli_query($con,$update);
+            echo $update; 
+            // die();
+            if ($update) {
+            echo "<script>;";
+            echo "alert('Data is Updated');";
+            echo "window.location.href = 'category.php';";
+            echo "</script>";
+            } else {
+            echo "<script>;";
+            echo "alert('Error')";
+            echo "window.location.href = 'category_update.php';";
+            echo "</script>";
+            }
+    }
 }
 ?>

@@ -177,20 +177,29 @@
 
  if(isset($_POST['save_form'])){
     extract($_POST);
-    // $sub_categ_name = $_POST["sub_categ_name"];
-    $sql=mysqli_query($con,"INSERT INTO sub_category (category_id, sub_categ_name) VALUES ('".$category_id."','".$sub_categ_name."')");
 
-    if($sql){
+    $result = mysqli_query($con,"SELECT * FROM sub_category WHERE sub_categ_name = '".$sub_categ_name."' ")or die(mysqli_error($con));
+
+    if(mysqli_num_rows($result)>0) {
         echo "<script type='text/javascript'>;";
-        echo "alert('Data Inserted Successfully');";
-        echo "window.location='sub_category.php';";
+        echo "alert('Data Already Exist .. Enter Different Subcategory');";
         echo "</script>";
-    }else{
-        echo "<script type='text/javascript'>;";
-        echo "window.location='sub_category.php';";
-        echo "</script>";
+        }
+        else{
+        $sql=mysqli_query($con,"INSERT INTO sub_category (category_id, sub_categ_name) VALUES ('".$category_id."','".$sub_categ_name."')");
+
+        if($sql){
+            echo "<script type='text/javascript'>;";
+            echo "alert('Data Inserted Successfully');";
+            echo "window.location='sub_category.php';";
+            echo "</script>";
+        }else{
+            echo "<script type='text/javascript'>;";
+            echo "window.location='sub_category.php';";
+            echo "</script>";
+        }
     }
- }
+}
  ?>
 <!-- delete -->
 <?php

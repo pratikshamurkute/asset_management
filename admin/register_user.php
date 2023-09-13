@@ -218,11 +218,18 @@ session_start();
 <?php
  include "include/config.php";
 
- if(isset($_POST['login'])){
-    extract($_POST);
-    // $country = $_POST["country"];
-    $sql=mysqli_query($con,"insert into register_users (name,designation,email,password,date) values ('$name','$designation','$email','$password','$date')") or die(mysqli_error($con));
+if(isset($_POST['login'])){
+  extract($_POST);
 
+  // $result = mysqli_query($con,"SELECT * FROM register_users WHERE 'name' = '".$name."' ")or die(mysqli_error($con));
+
+  // if(mysqli_num_rows($result)>0) {
+  //   echo "<script type='text/javascript'>;";
+  //   echo "alert('User is Already Exist .. Enter Different User');";
+  //   echo "</script>";
+  //   }
+  //   else{
+    $sql=mysqli_query($con,"insert into register_users (name,designation,email,password,date) values ('$name','$designation','$email','$password','$date')") or die(mysqli_error($con));
     if($sql){
         echo "<script type='text/javascript'>;";
         echo "alert('Data Inserted Successfully');";
@@ -233,5 +240,6 @@ session_start();
         echo "window.location.href='register_user.php';";
         echo "</script>";
     }
- }
+  }
+//}
  ?>

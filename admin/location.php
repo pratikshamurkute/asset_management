@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sumago Admin</title>
+  <title>Location</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -142,20 +142,31 @@
  include "include/config.php";
 
  if(isset($_POST['save_form'])){
-    $location_name = $_POST["location_name"];
-    $sql=mysqli_query($con,"INSERT INTO `location` (location_name) VALUES ('".$location_name."')");
+    // $location_name = $_POST["location_name"];
+    extract($_POST);
 
-    if($sql){
+    $result = mysqli_query($con,"SELECT * FROM location WHERE location_name = '".$location_name."' ")or die(mysqli_error($con));
+
+    if(mysqli_num_rows($result)>0) {
         echo "<script type='text/javascript'>;";
-        echo "alert('Data Inserted Successfully');";
-        echo "window.location='location.php';";
+        echo "alert('Data Already Exist .. Enter Different Location');";
         echo "</script>";
-    }else{
-        echo "<script type='text/javascript'>;";
-        echo "window.location='location.php';";
-        echo "</script>";
+        }
+        else{
+        $sql=mysqli_query($con,"INSERT INTO `location` (location_name) VALUES ('".$location_name."')");
+
+        if($sql){
+            echo "<script type='text/javascript'>;";
+            echo "alert('Data Inserted Successfully');";
+            echo "window.location='location.php';";
+            echo "</script>";
+        }else{
+            echo "<script type='text/javascript'>;";
+            echo "window.location='location.php';";
+            echo "</script>";
+        }
     }
- }
+}
  ?>
 <!-- delete -->
 <?php
@@ -164,15 +175,15 @@ if(isset($_GET['id'])){
   
     $dlt = mysqli_query($con,"DELETE FROM `location` WHERE `location_id`='".$_GET['id']."'")or die (mysqli_error($con));
 
-if ($dlt) {
-    echo "<script>";
-    echo "window.location.href = 'location.php';";
-    echo '</script>';
-} else {
-    echo "<script>;";
-    echo "window.location.href = 'location.php';";
-    echo "</script>";
-}
+    if ($dlt) {
+        echo "<script>";
+        echo "window.location.href = 'location.php';";
+        echo '</script>';
+    } else {
+        echo "<script>;";
+        echo "window.location.href = 'location.php';";
+        echo "</script>";
+    }
 
   }
 

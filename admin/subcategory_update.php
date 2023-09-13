@@ -97,23 +97,31 @@
 // include "config.php";
 include "include/config.php";
 if(isset($_POST['btn_update'])){
-  // extract("$_POST");
-    $sub_categ_name =$_POST['sub_categ_name'];  
-  
-$update="update sub_category set sub_categ_name='$sub_categ_name' where sub_categ_id='".$_GET['id']."'";
-$upd=mysqli_query($con,$update);
-echo $update; 
-// die();
-if ($update) {
-  echo "<script>;";
-  echo "alert('Data is Updated');";
-  echo "window.location.href = 'sub_category.php';";
-  echo "</script>";
-} else {
-  echo "<script>;";
-  echo "alert('Error')";
-  echo "window.location.href = 'subcategory_update.php';";
-  echo "</script>";
-}
+    extract($_POST);
+
+    $result = mysqli_query($con,"SELECT * FROM sub_category WHERE sub_categ_name = '".$sub_categ_name."' ")or die(mysqli_error($con));
+
+    if(mysqli_num_rows($result)>0) {
+        echo "<script type='text/javascript'>;";
+        echo "alert('Data Already Exist .. Enter Different Subcategory');";
+        echo "</script>";
+        }
+        else{
+        $update="update sub_category set sub_categ_name='$sub_categ_name' where sub_categ_id='".$_GET['id']."'";
+        $upd=mysqli_query($con,$update);
+        echo $update; 
+        // die();
+        if ($update) {
+        echo "<script>;";
+        echo "alert('Data is Updated');";
+        echo "window.location.href = 'sub_category.php';";
+        echo "</script>";
+        } else {
+        echo "<script>;";
+        echo "alert('Error')";
+        echo "window.location.href = 'subcategory_update.php';";
+        echo "</script>";
+        }
+    }
 }
 ?>

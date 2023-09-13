@@ -188,7 +188,15 @@
 
  if(isset($_POST['save_form'])){
     extract($_POST);
-    // $country = $_POST["country"];
+
+    $result = mysqli_query($con,"SELECT * FROM vender WHERE ven_name = '".$ven_name."' ")or die(mysqli_error($con));
+
+    if(mysqli_num_rows($result)>0) {
+        echo "<script type='text/javascript'>;";
+        echo "alert('Data Already Exist .. Enter Different Vender');";
+        echo "</script>";
+    }
+    else{
     $sql=mysqli_query($con,"insert into vender (`ven_name`, `company_name`, `gst_no`, `ven_address`, `ven_contact`, `ven_email`, `ven_website`) values ('$ven_name', '$company_name', '$gst_no', '$ven_address', '$ven_contact', '$ven_email', '$ven_website')");
 
     if($sql){
@@ -196,12 +204,13 @@
         echo "alert('Data Inserted Successfully');";
         echo "window.location.href='vender.php';";
         echo "</script>";
-    }else{
+        }else{
         echo "<script type='text/javascript'>;";
         echo "window.location.href='vender.php';";
         echo "</script>";
+        }
     }
- }
+}
  ?>
 <!-- delete -->
 <?php

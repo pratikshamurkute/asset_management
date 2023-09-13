@@ -207,20 +207,29 @@
 
  if(isset($_POST['save_form'])){
     extract($_POST);
-    // $country = $_POST["country"];
-    $sql=mysqli_query($con,"insert into items(item_name, category_name, sub_categ_name,item_brand,item_specify, item_price, servicing_date, warranty_date) values ('$item_name', '$category_name', '$sub_categ_name','$item_brand','$item_specify', '$item_price', '$servicing_date', '$warranty_date')");
 
-    if($sql){
+    $result = mysqli_query($con,"SELECT * FROM items WHERE item_name = '".$item_name."' ")or die(mysqli_error($con));
+
+    if(mysqli_num_rows($result)>0) {
         echo "<script type='text/javascript'>;";
-        echo "alert('Data Inserted Successfully');";
-        echo "window.location.href='items.php';";
+        echo "alert('Data Already Exist .. Enter Different Item');";
         echo "</script>";
-    }else{
-        echo "<script type='text/javascript'>;";
-        echo "window.location.href='items.php';";
-        echo "</script>";
+        }
+        else{
+        $sql=mysqli_query($con,"insert into items(item_name, category_name, sub_categ_name,item_brand,item_specify, item_price, servicing_date, warranty_date) values ('$item_name', '$category_name', '$sub_categ_name','$item_brand','$item_specify', '$item_price', '$servicing_date', '$warranty_date')");
+
+        if($sql){
+            echo "<script type='text/javascript'>;";
+            echo "alert('Data Inserted Successfully');";
+            echo "window.location.href='items.php';";
+            echo "</script>";
+        }else{
+            echo "<script type='text/javascript'>;";
+            echo "window.location.href='items.php';";
+            echo "</script>";
+        }
     }
- }
+}
  ?>
 <!-- delete -->
 <?php
